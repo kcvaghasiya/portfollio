@@ -1,0 +1,58 @@
+{% include "header.html" %}
+
+            <!-- Projects Section-->
+            <section class="py-5">
+                <div class="container px-5 mb-5">
+                    <div class="text-center mb-5">
+                        <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Projects</span></h1>
+                    </div>
+                    <div class="row" data-masonry="{&quot;percentPosition&quot;: true }" >
+                        {% for project in all_project %}
+                        <div class="col-sm-6 col-lg-4 mb-4">
+                          <div class="card">
+<!--                            <svg class="bd-placeholder-img card-img-top" width="100%" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>-->
+                              <img class="bd-placeholder-img card-img-top" width="100%" height="200" src="{{ project.img_url }}" alt="..." />
+                              <div class="card-body">
+                              <h5 class="card-title">{{ project.title }}</h5>
+                                  <h6 class="card-category"><strong>Category: </strong>{{ project.category }}</h6>
+
+<!--                              <p class="card-text">{{ (project.body|striptags|safe)[:75]}}</p>-->
+                                  <div class="d-grid gap-2 d-md-flex justify-content-md-start pt-3">
+                                        <a class="btn btn-outline-dark btn-lg px-5 py-3 fs-6 fw-bolder" href="{{ url_for('show_single_project', project_id=project.id) }}">View</a>
+                                      {% if current_user.id == 1 %}
+                                      <a class="btn btn-outline-dark btn-lg px-5 py-3 fs-6 fw-bolder" href="{{url_for('delete_project', project_id=project.id) }}">Delete</a>
+                                      {% endif %}
+
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    {% if current_user.id == 1 %}
+                <!-- New Post -->
+                    <div class="text-center mb-5">
+                        <a class="btn btn-primary float-right"
+                      href="{{url_for('add_new_project')}}"
+                      >Add New Project</a>
+                    </div>
+                    {% endif %}
+                </div>
+
+            </section>
+            <!-- Call to action section-->
+            <section class="py-5 bg-gradient-primary-to-secondary text-white">
+                <div class="container px-5 my-5">
+                    <div class="text-center">
+                        <h2 class="display-4 fw-bolder mb-4">Let's build something together</h2>
+                        <a class="btn btn-outline-light btn-lg px-5 py-3 fs-6 fw-bolder" href="{{ url_for('contact') }}">Contact me</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <!-- Footer-->
+<script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
+
+       {% include "footer.html" %}
+

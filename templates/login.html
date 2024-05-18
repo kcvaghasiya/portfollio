@@ -1,0 +1,25 @@
+{% from "bootstrap5/form.html" import render_form %}
+{% block content %}
+{% include "header.html" %}
+
+            <!-- Projects Section-->
+            <section class="py-5">
+                <div class="container px-5 mb-5">
+                    <div class="text-center mb-5">
+                        <h1 class="display-5 fw-bolder mb-0">
+                            <span class="text-gradient d-inline">Login</span>
+                        </h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8 col-md-10 mx-auto">
+                            {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+        <!-- Footer-->
+       {% include "footer.html" %}
+{% endblock %}
+
