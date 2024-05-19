@@ -109,7 +109,14 @@ class CreateContactForm(FlaskForm):
     message = CKEditorField("Message")
     submit = SubmitField("Submit")
 
-
+class ProjectSearchForm(FlaskForm):
+    choices = [
+        ('All', 'All'),
+        ('Python', 'Python'),
+        ('WordPress', 'WordPress')
+    ]
+    select = SelectField('Search for Project:', choices=choices)
+    submit = SubmitField("Let Me Check!")
 with app.app_context():
     db.create_all()
 
@@ -253,12 +260,24 @@ def download():
     path = "CV-2024.pdf"
     return send_file(path, as_attachment=True)
 
-@app.route('/projects')
+@app.route('/projects', methods=['GET', 'POST'])
 def projects():
-    result = db.session.execute(db.select(PortfolioProjects))
-    # result = db.session.execute(db.select(PortfolioProjects).where(PortfolioProjects.category == "wordpress"))
+    result = []
+    form = ProjectSearchForm()
+    if form.validate_on_submit():
+        if form.data['select'] == 'WordPress':
+            result = db.session.execute(db.select(PortfolioProjects).where(PortfolioProjects.category == "Wordpress"))
+        elif form.data['select'] == 'Python':
+            result = db.session.execute(db.select(PortfolioProjects).where(PortfolioProjects.category == "Python"))
+        else:
+            result = db.session.execute(db.select(PortfolioProjects))
+    else:
+        result = db.session.execute(db.select(PortfolioProjects))
     projects = result.scalars().all()
-    return render_template("projects.html", current_year=current_year, all_project=projects, current_user=current_user)
+    if not result:
+        flash('No results found!')
+        return redirect('/')
+    return render_template("projects.html", current_year=current_year, all_project=projects, form=form, current_user=current_user)
 
 @app.route("/project/<int:project_id>")
 def show_single_project(project_id):

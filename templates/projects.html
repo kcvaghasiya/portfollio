@@ -1,3 +1,5 @@
+{% from "bootstrap5/form.html" import render_form %}
+{% block content %}
 {% include "header.html" %}
 
             <!-- Projects Section-->
@@ -5,6 +7,9 @@
                 <div class="container px-5 mb-5">
                     <div class="text-center mb-5">
                         <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Projects</span></h1>
+                    </div>
+                    <div class="col-xs-1 center-block mb-5">
+                        {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
                     </div>
                     <div class="row" data-masonry="{&quot;percentPosition&quot;: true }" >
                         {% for project in all_project %}
@@ -54,5 +59,5 @@
         <!-- Footer-->
 <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
 
-       {% include "footer.html" %}
-
+{% include "footer.html" %}
+{% endblock %}
